@@ -16,3 +16,7 @@ In order to run these scripts locally:
 1. Install the AdventureWorks2017 sample database
 2. Install the WideWorldImporters sample database
 
+###TODO:
+Finalise scripts
+Add list of questions
+
