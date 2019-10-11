@@ -13,35 +13,17 @@ Purpose: JOINS
 
 TODO: finish this script
 ---------------------------------------------------------------------------------------*/
+/* CROSS JOINS
 
+-- returns all possible combinations of every row from two tables
+-- one logical query processing phase- a Cartesian product
+-- two tables as input to return a table representing a Cartesian product
+-- no matching is performed on columns, therefore no join conditions
+-- performance considerations are important when querying large tables 
+-- can behave like an inner join when a WHERE clause is used
+-- can be used in a self join 
+-------------------------------------------------------------------------*/
 
-SELECT TOP 5 * from Production.Product    -- There are 508 rows in this table
-
-SELECT TOP 5 * from Production.ProductReview   -- There are 4 rows in this table
-
-
-
--- This query will perform an INNER JOIN
-SELECT p.Name, pr.ProductReviewID
-FROM Production.Product p 
-JOIN Production.ProductReview pr
-ON p.ProductID = pr.ProductID
-
-
--- This query will perform a LEFT JOIN
-SELECT p.Name, pr.ProductReviewID
-FROM Production.Product p
-LEFT OUTER JOIN Production.ProductReview pr
-ON p.ProductID = pr.ProductID
-
-
--- This query will perform a RIGHT JOIN
-SELECT p.Name, pr.ProductReviewID
-FROM Production.Product p
-RIGHT OUTER JOIN Production.ProductReview pr
-ON p.ProductID = pr.ProductID
-
-
-SELECT p.Name, pr.ProductReviewID
-FROM Production.Product p
-CROSS JOIN Production.ProductReview pr
+SELECT TOP 500 CustomerID, BusinessEntityID
+FROM SALES.Customer 
+CROSS JOIN HumanResources.Employee ;
