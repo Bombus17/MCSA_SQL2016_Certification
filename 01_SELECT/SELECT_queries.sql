@@ -15,6 +15,11 @@ Interpretation Order
 5. SELECT
 6. ORDER BY
 
+-- SORTING DATA
+--A table in TSL represents a relation; a relation is a set and a set has no order
+--Therefore unless explicitly instructed to do so, the result of a query has no guaranteed order
+-- ASC is the default
+-- NULLS are sorted first
 ---------------------------------------------------------------------------------------*/
 /* RETRIEVE A LIST OF ALL PREFERRED VENDORS 
 -- Name is a reserved key word, hence enclosed in []
@@ -75,7 +80,7 @@ FROM [Person].[Person]
 ORDER BY EmailPromotion ;
 
 /* ORDER EMPLOYEE LIST BY Full_Name 
-
+-- due to the logical query processing order, aliases in the select list are visible to the ORDER BY clause
 -----------------------------------*/
 SELECT Title
       ,FirstName AS First_Name

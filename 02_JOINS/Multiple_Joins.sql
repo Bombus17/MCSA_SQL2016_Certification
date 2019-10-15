@@ -8,7 +8,7 @@ Purpose: multiple Joins
 -- best practices when using different join types
 -- pitfalls when ordering mixed joins in queries
 -- joining to derived tables
--- self referencing jois
+-- self referencing joins
 
 TODO: finish this script
 ---------------------------------------------------------------------------------------*/
