@@ -1,5 +1,5 @@
 ## MCSA Database Developer
-This repository holds working scripts I used when studying for the following exams:
+This repository holds working scripts and summary notes created when studying for the following exams:
 * Querying Data with Transact-SQL (70-761)
 * Developing SQL Databases (70-762)
 
