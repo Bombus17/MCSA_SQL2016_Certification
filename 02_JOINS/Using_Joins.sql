@@ -11,7 +11,8 @@ Purpose: JOINS
 -- INNER JOIN
 -- OUTER JOIN (LEFT/RIGHT/FULL) 
 -- OUTER APPLY 
--- Difference between OUTER JOIN and OUTER APPLY
+-- Difference between OUTER JOIN and OUTER APPLY 
+-- see APPLY script for more examples of CROSS APPLY and OUTER APPLY
 
 ---------------------------------------------------------------------------------------*/
 /* CROSS JOIN
@@ -209,7 +210,4 @@ ON cr.CurrencyRateID = soh.CurrencyRateID
 -- but it can also be used with inline SELECT statements
 ----------------------------------------------------------*/
 
-/* COMPOSITE JOINS
 
--- joins based on multiple columns
----------------------------------------------------------*/
