@@ -9,15 +9,10 @@ Purpose: JOINS
 -- CROSS APPLY
 -- Difference between CROSS JOIN and CROSS APPLY (see the APPLY script for more detailed examples)
 -- INNER JOIN
--- OUTER JOIN (LEFT/RIGHT/FULL) **
--- OUTER APPLY
+-- OUTER JOIN (LEFT/RIGHT/FULL) 
+-- OUTER APPLY 
 -- Difference between OUTER JOIN and OUTER APPLY
--- Composite Joins
--- Multiple Joins
--- JOIN operators (AND OR)
--- Using NULLs in joins
 
-TODO: Finalise this script
 ---------------------------------------------------------------------------------------*/
 /* CROSS JOIN
 
@@ -54,7 +49,7 @@ CROSS JOIN HumanResources.Employee ;
 -- match rows based on predicate (ON) clause
 -- ON and WHERE clauses filter rows where predicate evaluates to True
 -- INNER JOIN is the default join when using the syntax JOIN
---
+-- preferably the join is based on referential integrity
 --------------------------------------------------------*/
 
 /* Find all employees, their job title and age they were employed 
@@ -66,6 +61,42 @@ SELECT CONCAT(p.FirstName, ' ', p.LastName) AS EmployeeName, emp.JobTitle, emp.G
 FROM Person.Person p
 INNER JOIN [HumanResources].[Employee] emp
 ON p.BusinessEntityID = emp.BusinessEntityID;
+
+/* ----------------------------------------------------
+Retrieve all products where the price is > 1000
+
+---------------------------------------------------*/
+SELECT  TOP 100 P.ProductID, 
+ P.[Name] AS ProductName, 
+ P.ListPrice, 
+ P.Size, 
+ P.ModifiedDate, 
+ sd.UnitPrice, 
+ sd.UnitPriceDiscount,
+ sd.OrderQty,
+ sd.LineTotal 
+FROM Sales.SalesOrderDetail sd 
+INNER JOIN Production.Product P 
+ON sd.ProductID = P.ProductID 
+WHERE sd.UnitPrice > 1000 
+ORDER BY sd.UnitPrice DESC
+
+/* Get customer numbers
+-----------------------------------*/
+SELECT p.PersonType
+, p.Title
+, p.FirstName
+, p.MiddleName
+, p.LastName
+, p.Suffix
+, pp.PhoneNumber
+, pnt.[Name] AS NumberType
+FROM Person.Person p
+INNER JOIN Person.PersonPhone pp 
+	ON p.BusinessEntityID = pp.BusinessEntityID
+INNER JOIN Person.PhoneNumberType pnt 
+	ON pp.PhoneNumberTypeID = pnt.PhoneNumberTypeID 
+	AND pnt.PhoneNumberTypeID = 3
 
 /* OUTER JOIN 
 
@@ -84,16 +115,101 @@ ON p.BusinessEntityID = emp.BusinessEntityID;
 -- here ON is not final (wrt the preserved side) whereas WHERE is. 
 
 -- RIGHT OUTER JOIN is essentially the same but the right table is preserved
+-- So the LEFT and RIGHT OUTER JOIN logic is opposite of one another
 -- FULL OUTER JOIN both sides are preserved with NULL as placeholders for unmatched rows from either side
 -----------------------------------------------------------------------------------------------------*/
+/* employees with sales for each territory
+-- the NULLs represent no sales
+-- records in SalesPerson but not in SalesTerritory return NULL as placeholders
 
-SELECT st.[Group] AS Region, st.[Name] AS TerritoryName, COUNT(soh.CustomerID) AS Total_Customers
-FROM [Sales].[SalesOrderHeader] soh
-LEFT OUTER JOIN [Sales].[SalesTerritory] st
-ON st.TerritoryID = soh.TerritoryID
-GROUP BY st.[Group], st.[Name]
-ORDER BY Region;
+-- Note: this is also a multiple join (>2 tables)
+-- join order is very important  (see multiple joins)
+-------------------------------------------*/
+SELECT  p.FirstName,
+ p.LastName,
+ sp.CommissionPct,
+ sp.SalesYTD,
+ sp.SalesLastYear,
+ sp.Bonus,
+ st.TerritoryID,
+ st.Name,
+ st.[Group],
+ st.SalesYTD
+FROM Person.Person p
+INNER JOIN Sales.Salesperson sp
+	ON p.BusinessEntityID = sp.BusinessEntityID
+LEFT OUTER JOIN Sales.Salesterritory st 
+	ON st.TerritoryID = sp.TerritoryID
+ORDER BY st.TerritoryID, p.LastName
 
+/* LEFT OUTER JOIN 
+----------------------------------------------------*/
+SELECT p.BusinessEntityID
+, p.PersonType
+, p.NameStyle
+, p.Title
+, p.FirstName
+, p.MiddleName
+, p.LastName
+, pp.PhoneNumber
+, pnt.[Name] AS NumberType
+FROM Person.Person p
+INNER JOIN Person.PersonPhone pp 
+	ON p.BusinessEntityID = pp.BusinessEntityID
+LEFT OUTER JOIN Person.PhoneNumberType pnt 
+	ON pp.PhoneNumberTypeID = pnt.PhoneNumberTypeID
+	AND pnt.PhoneNumberTypeID = 3
 
+/*--RIGHT OUTER JOIN
+-- to demonstrate that this is essentially reciproal of the LEFT OUTER JOIN
+-- the code is rewritten to preserve the SalesTerritory table
+--------------------------------------------------------------*/
 
+SELECT  p.FirstName, 
+ p.LastName, 
+ sp.CommissionPct,
+ sp.SalesYTD,
+ sp.SalesLastYear,
+ sp.Bonus,
+ st.TerritoryID,
+ st.Name, st.[Group],
+ st.SalesYTD 
+FROM Sales.Salesterritory st 
+RIGHT OUTER JOIN Sales.Salesperson sp 
+	ON st.TerritoryID = sp.TerritoryID 
+INNER JOIN Person.Person p
+	ON p.BusinessEntityID = sp.BusinessEntityID
+ORDER BY st.TerritoryID, p.LastName
+GO
 
+/* FULL OUTER JOIN
+--both tables preserved
+-- NULL as placeholders for unmatched rows from either side
+------------------------------------------*/
+SELECT soh.AccountNumber
+,soh.OrderDate
+,cr.ToCurrencyCode
+,cr.AverageRate
+FROM sales.SalesOrderHeader soh
+FULL OUTER JOIN sales.CurrencyRate cr
+ON cr.CurrencyRateID = soh.CurrencyRateID
+
+/* DIFFERENCE BETWEEN OUTER JOIN and OUTER APPLY 
+
+-- JOIN treats inputs as sets of inputs (no correlation, no order)
+-- APPLY operator applies query logic to each row
+-- allows for correlation for multiple columns and rows
+
+-- OUTER APPLY 
+-- extends cross apply
+-- includes rows from the left table that return an empty set
+-- NULLs as placeholders
+-- preserves LEFT side
+--APPLY operator is required when you have to use a table-valued function in the query, 
+-- but it can also be used with inline SELECT statements
+----------------------------------------------------------*/
+
+/* COMPOSITE JOINS
+
+-- joins based on multiple columns
+---------------------------------------------------------*/

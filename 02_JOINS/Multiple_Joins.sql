@@ -10,5 +10,10 @@ Purpose: multiple Joins
 -- joining to derived tables
 -- self referencing joins
 
-TODO: finish this script
+-- Composite Joins 
+-- JOIN operators (AND OR)
+-- Using NULLs in joins
+
+TODO: Finalise this script
+
 ---------------------------------------------------------------------------------------*/
