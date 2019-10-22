@@ -9,3 +9,28 @@ Purpose: UNPIVOT functions
 
 
 ---------------------------------------------------------------------------------------*/
+/* using this source data */
+
+DECLARE @tblProducts TABLE ( ProductName NVARCHAR(25)
+							, Blue INT
+							, Red INT
+							, Silver INT
+							, Green INT
+							, Purple INT
+							)
+INSERT INTO @tblProducts
+VALUES ('Boots', 25, 15, 18, 91, 5)
+, ('Bikes', 8, 23, 7, 67, 89)
+, ('Helmets', 12, 15, 6, 7, 98)
+, ('Clothing', 5, 55, 13, 9, 0)
+
+SELECT * FROM @tblProducts;
+
+SELECT ProductName, Colour, Total
+FROM @tblProducts
+UNPIVOT
+	( Total
+	FOR Colour IN ([Blue], [Red], [Silver], [Green], [Purple])
+	) AS unpvt;
+
+

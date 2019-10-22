@@ -56,6 +56,21 @@ FROM ( SELECT PurchaseOrderID, EmployeeID, VendorID
 	) AS pvt  
 	ORDER BY pvt.VendorID;  
 
+/* another example 
+-- here we pivot on the product list price 
+--------------------------------------------*/
+
+SELECT *
+FROM (SELECT DISTINCT pc.[Name] AS ProductCategory, p.Color, p.listPrice
+		FROM Production.Product p
+		LEFT JOIN Production.ProductCategory pc
+		ON pc.ProductCategoryID = p.ProductSubcategoryID
+		WHERE ListPrice != 0.00 AND color IS NOT NULL AND pc.Name IS NOT NULL
+	) AS src
+PIVOT ( SUM(ListPrice)
+	FOR Color in ([Black], [Silver], [Blue], [Yellow],[Red])
+	) AS ColPvt
+
 /* DYNAMIC PIVOT EXAMPLE
 ------------------------------------------------*/
 DECLARE @columns NVARCHAR(MAX), @sql NVARCHAR(MAX);
