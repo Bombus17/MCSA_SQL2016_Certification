@@ -18,5 +18,5 @@ In order to run these scripts locally:
 
 ###TODO:
 Finalise scripts
-Add list of questions
+Add questions
 
