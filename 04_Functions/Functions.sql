@@ -66,4 +66,6 @@ Note: the use of a non-deterministic function on a computed column
 SELECT BusinessEntityID, SYSDATETIME() AS Dt_Now, RAND() AS [RAND], NEWID() AS newGUID
 FROM HumanResources.Employee;
 
+/* check if a funtion is deterministic */
+
 
