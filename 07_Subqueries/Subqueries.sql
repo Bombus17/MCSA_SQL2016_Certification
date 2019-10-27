@@ -32,3 +32,4 @@ FROM Production.Product
 WHERE ProductID NOT IN (SELECT ProductID 
 						FROM Sales.SalesOrderDetail
 						WHERE ProductID IS NOT NULL);
+

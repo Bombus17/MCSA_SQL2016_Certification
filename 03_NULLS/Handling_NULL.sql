@@ -113,4 +113,30 @@ FROM [Person].[Address];
 -- for all other funtions if the data set contains no rows, or contains only rows with nulls as arguments to the aggregate function,
 ---then the function returns null.
 
--------------------------------------------------------------------
+-------------------------------------------------------------------*/
+/* find all products without a colour 
+ -- IS NULL never = NULL
+*/
+
+SELECT ProductID
+	, [Name] AS ProductName
+	, Color
+FROM Production.Product
+WHERE Color IS NULL;
+
+/* Products which aren't Silver */
+SELECT ProductID
+	, [Name] AS ProductName
+	, Color
+FROM Production.Product
+WHERE Color IS NULL OR Color != 'Silver';
+
+-- could also use
+SELECT ProductID
+	, [Name] AS ProductName
+	, Color
+FROM Production.Product
+WHERE ISNULL(Color, '')  != 'Silver';
+
+
+

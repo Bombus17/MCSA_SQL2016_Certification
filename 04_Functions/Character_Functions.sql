@@ -102,5 +102,12 @@ FROM STRING_SPLIT(@Orders, ',') AS K
 INNER JOIN Sales.SalesOrderHeader s
 	ON s.SalesOrderID = CAST(K.Value AS INT);
 
+/* CHARINDEX and SUBSTRING
+-- combine functions to return the characters after the hyphen in the Product Number column
+*/
+
+SELECT ProductNumber
+	, SUBSTRING(ProductNumber, CHARINDEX('-', ProductNumber)+1, 25) AS ProdNumber
+FROM Production.Product;
 
 

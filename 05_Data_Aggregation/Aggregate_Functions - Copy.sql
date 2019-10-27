@@ -83,3 +83,9 @@ FROM (SELECT OrderQty
 	This is not the case with operators such as <>, LIKE with a wildcard (%) prefix
 
 	-------------------------------------------------------------------*/
+
+	/* Difference between MIN and MAX qty */
+
+	SELECT SpecialOfferID, [Description], MaxQty - MinQty AS [Diff]
+	FROM Sales.SpecialOffer;
+

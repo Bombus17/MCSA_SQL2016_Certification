@@ -36,3 +36,36 @@ SELECT DATEPART(dd, @Dt) AS [Day] -- as integer
 	, EOMONTH(@Dt, 1) AS [LastDayOfNextMonth]
 	, EOMONTH(@Dt, 0) AS [LastDayOfThisMonth]
 
+/* use DATEDIFF to determine the number of days between dates */
+
+SELECT SalesOrderID, OrderDate, ShipDate
+	, DATEDIFF(d, OrderDate, ShipDate) AS NoOfDays
+FROM Sales.SalesOrderHeader;
+
+/* retrieve only the date from a datetime field */
+
+SELECT CONVERT(VARCHAR,OrderDate,1) AS OrderDate
+	, CONVERT(VARCHAR, ShipDate,1) AS ShipDate
+FROM Sales.SalesOrderHeader;
+
+/* Use DATEADD to determine future dates 
+-- use negative values to get dates prior
+------------------------------------------------*/
+SELECT SalesOrderID
+	, OrderDate
+	, DATEADD(M, 4, OrderDate) AS PlusFourMonths
+FROM Sales.SalesOrderHeader;
+
+/* retrieve date parts */
+SELECT SalesOrderID
+	, OrderDate
+	, YEAR(OrderDate) AS OrderYear
+	, MONTH(OrderDate) AS OrderMN_Month
+	, DATEPART(m, OrderDate) AS OrderMN_Datepart
+	, DATENAME(m, OrderDate) AS OrderMonthName
+FROM Sales.SalesOrderHeader;
+
+
+
+
+
