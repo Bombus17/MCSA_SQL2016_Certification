@@ -6,7 +6,7 @@ Purpose: T-SQL Selecting data
 
 -- TOP (Number, PERCENT, using a variable, WITH TIES)
 -- OFFSET and FETCH
--- SORTING Data
+-- SORTING Data (ORDER BY)
 
 --N.B.
 -- TOP and OFFSET FETCH are processed after the FROM, WHERE, GROUP BY and HAVING clauses

@@ -69,3 +69,41 @@ FROM HumanResources.Employee;
 /* check if a funtion is deterministic */
 
 
+/* SYSTEM FUNCTIONS 
+-- @@ROWCOUNT and ROWCOUNT_BIG
+---------------------*/
+
+
+DECLARE @BusinessEntityID AS INT = 519;
+
+SELECT BusinessEntityID, firstname, lastname
+FROM Person.Person
+WHERE BusinessEntityID = @BusinessEntityID;
+
+IF @@ROWCOUNT = 0
+  PRINT CONCAT('Employee ', CAST(@BusinessEntityID AS VARCHAR(10)), ' was not found.');
+
+-- COMPRESS and DECOMPRESS
+/*
+INSERT INTO dbo.MyNotes(notes)
+  VALUES(COMPRESS(@notes));
+
+SELECT keycol
+  CAST(DECOMPRESS(notes) AS NVARCHAR(MAX)) AS notes
+FROM dbo.MyNotes;
+*/
+
+-- CONTEXT_INFO and SESSION_CONTEXT
+DECLARE @mycontextinfo AS VARBINARY(128) = CAST('us_english' AS VARBINARY(128));
+SET CONTEXT_INFO @mycontextinfo;
+GO
+
+SELECT CAST(CONTEXT_INFO() AS VARCHAR(128)) AS mycontextinfo;
+
+EXEC sys.sp_set_session_context 
+  @key = N'language', @value = 'us_english', @read_only = 1; 
+
+SELECT SESSION_CONTEXT(N'language') AS [language];
+
+-- GUID and identity functions
+SELECT NEWID() AS myguid;

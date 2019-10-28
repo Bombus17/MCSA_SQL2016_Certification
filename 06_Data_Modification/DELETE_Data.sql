@@ -10,8 +10,8 @@ Purpose: DELETE data
 -- output rows
 -- transactions
 -- batch deletions
+-- DELETE with OUTPUT
 
-TODO: finish this script
 ---------------------------------------------------------------------------------------*/
 
 /* DELETE 
@@ -114,3 +114,66 @@ BEGIN
   COMMIT TRANSACTION;
 
 END
+
+
+
+---------------------------------------------------------------------
+-- Deleting data
+---------------------------------------------------------------------
+
+-- sample data
+DROP TABLE IF EXISTS Sales.MyOrderDetails, Sales.MyOrders, Sales.MyCustomers;
+
+SELECT * INTO Sales.MyCustomers FROM Sales.Customers;
+ALTER TABLE Sales.MyCustomers
+  ADD CONSTRAINT PK_MyCustomers PRIMARY KEY(custid);
+
+SELECT * INTO Sales.MyOrders FROM Sales.Orders;
+ALTER TABLE Sales.MyOrders
+  ADD CONSTRAINT PK_MyOrders PRIMARY KEY(orderid);
+
+SELECT * INTO Sales.MyOrderDetails FROM Sales.OrderDetails;
+ALTER TABLE Sales.MyOrderDetails
+  ADD CONSTRAINT PK_MyOrderDetails PRIMARY KEY(orderid, productid);
+
+-- DELETE statement
+DELETE FROM Sales.MyOrderDetails
+WHERE productid = 11;
+
+/*
+DELETE FROM dbo.MyTable WHERE CURRENT OF MyCursor;
+*/
+
+-- delete in chuncks
+WHILE 1 = 1
+BEGIN
+  DELETE TOP (1000) FROM Sales.MyOrderDetails
+  WHERE productid = 12;
+
+  IF @@rowcount < 1000 BREAK;
+END
+
+-- TRUNCATE statement
+TRUNCATE TABLE Sales.MyOrderDetails;
+
+-- With partitions
+TRUNCATE TABLE MyTable WITH ( PARTITIONS(1, 2, 11 TO 20) );
+
+-- DELETE based on a join
+DELETE FROM O
+FROM Sales.MyOrders AS O
+  INNER JOIN Sales.MyCustomers AS C
+    ON O.custid = C.custid
+WHERE C.country = N'USA';
+
+-- cleanup
+DROP TABLE IF EXISTS Sales.MyOrderDetails, Sales.MyOrders, Sales.MyCustomers;
+
+---------------------------------------------------------------------
+-- DELETE with OUTPUT
+---------------------------------------------------------------------
+
+DELETE FROM Sales.MyOrders
+  OUTPUT deleted.orderid
+WHERE empid = 1;
+

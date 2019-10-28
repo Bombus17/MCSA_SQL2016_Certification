@@ -65,7 +65,32 @@ SELECT SalesOrderID
 	, DATENAME(m, OrderDate) AS OrderMonthName
 FROM Sales.SalesOrderHeader;
 
+/*
+-- Offset related functions
+-----------------------------*/
 
+-- SWITCHOFFSET
+SELECT SWITCHOFFSET(SYSDATETIMEOFFSET(), '-05:00') AS [SWTCHOFFSET];
+SELECT SWITCHOFFSET(SYSDATETIMEOFFSET(), '-08:00') AS [SWTCHOFFSET];
+
+-- example with both functions
+SELECT 
+  SWITCHOFFSET('20190212 14:00:00.0000000 -05:00', '-08:00') AS [SWITCHOFFSET],
+  TODATETIMEOFFSET('20190212 14:00:00.0000000', '-08:00') AS [TODATETIMEOFFSET];
+
+-- AT TIME ZONE when similar to SWITCHOFFSET
+SELECT SYSDATETIMEOFFSET() AT TIME ZONE 'Pacific Standard Time';
+
+-- AT TIME ZONE when similar to TODATETIMEOFFSET
+DECLARE @dat AS DATETIME2 = '20190212 14:00:00.0000000';
+SELECT @dat AT TIME ZONE 'Pacific Standard Time';
+
+-- time zones
+SELECT * FROM sys.time_zone_info;
+
+-- two conversions
+DECLARE @dtt AS DATETIME2 = '20190212 14:00:00.0000000'; -- stored as UTC
+SELECT @dtt AT TIME ZONE 'UTC' AT TIME ZONE 'Pacific Standard Time'; -- switched to Pacific Standard Time
 
 
 

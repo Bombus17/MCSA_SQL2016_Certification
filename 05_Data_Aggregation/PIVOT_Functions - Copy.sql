@@ -95,3 +95,38 @@ SET @sql = N'
 	PRINT @sql;
 	EXEC sp_executesql @sql;
 
+
+
+-- show customer IDs on rows, shipper IDs on columns, total freight in intersection
+WITH PivotData AS
+(
+  SELECT
+    custid,    -- grouping column
+    shipperid, -- spreading column
+    freight    -- aggregation column
+  FROM Sales.Orders
+)
+SELECT custid, [1], [2], [3]
+FROM PivotData
+  PIVOT(SUM(freight) FOR shipperid IN ([1],[2],[3]) ) AS P;
+
+-- Replace NULLs with 0.00
+WITH PivotData AS
+(
+  SELECT
+    custid,   
+    shipperid,
+    freight   
+  FROM Sales.Orders
+)
+SELECT custid,
+  ISNULL([1], 0.00) AS [1],
+  ISNULL([2], 0.00) AS [2],
+  ISNULL([3], 0.00) AS [3]
+FROM PivotData
+  PIVOT(SUM(freight) FOR shipperid IN ([1],[2],[3]) ) AS P;
+
+-- when applying PIVOT to Orders table direclty get a result row for each order
+SELECT custid, [1], [2], [3]
+FROM Sales.Orders
+  PIVOT(SUM(freight) FOR shipperid IN ([1],[2],[3]) ) AS P;

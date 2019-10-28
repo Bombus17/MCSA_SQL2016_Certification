@@ -90,3 +90,12 @@ SELECT Title
 	  ,CONCAT(FirstName,' ', MiddleName, '',LastName,' : ',EmailPromotion) AS [Full_Name:EmailPromotion]
 FROM [Person].[Person]
 ORDER BY Full_Name;
+
+/* Logical query processing */
+
+SELECT Gender, YEAR(hiredate) AS yearhired, COUNT(*) AS numemployees
+FROM HumanResources.Employee
+WHERE hiredate >= '20100101'
+GROUP BY Gender, YEAR(hiredate)
+HAVING COUNT(*) > 1
+ORDER BY Gender, yearhired DESC;

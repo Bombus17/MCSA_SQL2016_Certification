@@ -28,11 +28,28 @@ SELECT SUBSTRING(@TestString, 5, 6) AS [SubString]
 	, UPPER(@TestString) AS [UPPER]
 	, LOWER(@TestString) AS [LOWER];
 
-/* FORMAT */
+/* FORMAT 
+-----------------------------------------------------------*/
 SELECT FORMAT(123456789, '##-##-#####') AS [FORMAT];
+
+SELECT UPPER('aBcD'); -- 'ABCD'
+
+SELECT LOWER('aBcD'); -- 'abcd'
+
+SELECT RTRIM(LTRIM('   xyz   ')); -- 'xyz'
+
+SELECT FORMAT(1759, '0000000000');
+
+SELECT FORMAT(1759, 'd10');
+
+SELECT FORMAT(2, '00')
 
 /* DATALENGTH - no of bytes used to represent an expression */
 SELECT DATALENGTH(5000000) AS [DataLength];
+
+SELECT LEN(N'xyz'); -- 3
+
+SELECT DATALENGTH(N'xyz'); -- 6
 
 /* LTRIM - remove leading spaces
 	RTRIM - remove ending spaces
@@ -67,7 +84,8 @@ SELECT STUFF('SQL Coding!', 13, 1, ' is fun!');
 ---------------------------------------------------------------*/
 SELECT TRANSLATE('3*[2+1]/{8-4}', '[]{}', '()()'); 
 
-/* CHARINDEX */
+/* CHARINDEX 
+--------------------------------------------------------------*/
 DECLARE  @ProductCode VARCHAR(50)= 'CCCC-DDDDDDD-AAA-BBBBB'
 
 SELECT [Part1] = LEFT(@ProductCode,CHARINDEX('-',@ProductCode) - 1)
@@ -84,7 +102,8 @@ SELECT [Part1] = LEFT(@ProductCode,CHARINDEX('-',@ProductCode) - 1)
 
        ,[Part4] = RIGHT(@ProductCode,CHARINDEX('-',REVERSE(@ProductCode)) - 1);
 
-/* PATINDEX( '%pattern%', string ) */
+/* PATINDEX( '%pattern%', string ) 
+----------------------------------------------------------------------------*/
 DECLARE @MyValue varchar(10) = 'safety';   
 SELECT PATINDEX('%' + @MyValue + '%', DocumentSummary)   AS [PATINDEX]
 FROM Production.Document  
@@ -109,5 +128,15 @@ INNER JOIN Sales.SalesOrderHeader s
 SELECT ProductNumber
 	, SUBSTRING(ProductNumber, CHARINDEX('-', ProductNumber)+1, 25) AS ProdNumber
 FROM Production.Product;
+
+SELECT SUBSTRING('abcde', 1, 3); -- 'abc'
+
+SELECT LEFT('abcde', 3); -- 'abc'
+
+SELECT RIGHT('abcde', 3); -- 'cde'
+
+SELECT CHARINDEX(' ','Albert Einstein'); 
+
+SELECT PATINDEX('%[0-9]%', 'abcd123efgh'); -- 5
 
 
