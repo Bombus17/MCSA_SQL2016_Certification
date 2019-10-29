@@ -64,6 +64,13 @@ WHERE StaffID IN
 -- TRUNCATE reseeds identity values, whereas DELETE doesn't. 
 -- TRUNCATE removes all records and doesn't fire triggers. 
 -- TRUNCATE is faster compared to DELETE as it makes less use of the transaction log.
+
+-- DELETE 
+-- fully logged, therefore large deletes are time consuming and impact the transaction log
+-- use predicates
+-- split into blocks e.g. TOP ... while 1=1 BEGIN ....<DELETE query> ... END, use @@Rowcount to check rows deleted
+-- could also use a cursor
+-- when deleting based on a join, the second FROM clause is mandatory, (filter predicate)
 -----------------------------*/
 
 /* OUTPUT deleted data 

@@ -33,7 +33,7 @@ SELECT NEWID() AS MyGUID;
 -----------------------------------------------------*/
 
 /* SCOPE_IDENTITY()
--- returns the last identity value taht was generated in the same session and scope
+-- returns the last identity value that was generated in the same session and scope
 ----------------------------------------------------*/
 
 /* @@INDENTITY()

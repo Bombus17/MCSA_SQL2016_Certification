@@ -75,6 +75,9 @@ ORDER BY OrderDate DESC;
 -- FETCH clause requires an OFFSET clause
 -- OFFSET does not require a FETCH clause 
 -- NEXT and FIRST can be used interchangeably
+-- use (SELECT NULL) to filter rows in an artirary order
+-- can use expressions as inputs
+-- consider indexing ORDER BY columns to support OFFSET FETCH search
 ------------------------------------------------------------*/
 
 

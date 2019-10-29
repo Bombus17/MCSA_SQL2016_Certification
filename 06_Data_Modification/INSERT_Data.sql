@@ -4,9 +4,9 @@ GO
 /*------------------------------------------------------------------------------------
 Purpose: insert data
 
--- insert into values
--- insert select
--- insert exec
+-- INSERT INTO VALUES: can use multiple rows
+-- INSERT SELECT: use a query to define data to be inserted
+-- INSERT EXEC: via stored procedure or dynamic batch
 -- insert with variables
 -- insert with table variables
 -- INSERT with OUTPUT
@@ -134,51 +134,6 @@ SELECT * FROM Sales.MyOrders;
 
 -- cleanup
 DROP TABLE IF EXISTS Sales.MyOrders;
-
----------------------------------------------------------------------
--- Updating data
----------------------------------------------------------------------
-
--- sample data for UPDATE and DELETE sections
-DROP TABLE IF EXISTS Sales.MyOrderDetails, Sales.MyOrders, Sales.MyCustomers;
-
-SELECT * INTO Sales.MyCustomers FROM Sales.Customers;
-ALTER TABLE Sales.MyCustomers
-  ADD CONSTRAINT PK_MyCustomers PRIMARY KEY(custid);
-
-SELECT * INTO Sales.MyOrders FROM Sales.Orders;
-ALTER TABLE Sales.MyOrders
-  ADD CONSTRAINT PK_MyOrders PRIMARY KEY(orderid);
-
-SELECT * INTO Sales.MyOrderDetails FROM Sales.OrderDetails;
-ALTER TABLE Sales.MyOrderDetails
-  ADD CONSTRAINT PK_MyOrderDetails PRIMARY KEY(orderid, productid);
-
----------------------------------------------------------------------
--- UPDATE statement
----------------------------------------------------------------------
-
--- add 5 percent discount to order lines of order 10251
-
--- first show current state
-SELECT *
-FROM Sales.MyOrderDetails
-WHERE orderid = 10251;
-
--- update
-UPDATE Sales.MyOrderDetails
-  SET discount += 0.05
-WHERE orderid = 10251;
-
--- show state after update
-SELECT *
-FROM Sales.MyOrderDetails
-WHERE orderid = 10251;
-
--- cleanup
-UPDATE Sales.MyOrderDetails
-  SET discount -= 0.05
-WHERE orderid = 10251;
 
 
 ---------------------------------------------------------------------

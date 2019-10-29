@@ -34,25 +34,20 @@ UNPIVOT
 	) AS unpvt;
 
 
--- sample data for UNPIVOT example
-USE TSQLV4;
-DROP TABLE IF EXISTS Sales.FreightTotals;
-GO
+
 
 WITH PivotData AS
 (
   SELECT
-    custid,    -- grouping column
-    shipperid, -- spreading column
-    freight    -- aggregation column
-  FROM Sales.Orders
+     [CustomerID]  -- grouping column
+    ,[ShipMethodID] -- spreading column
+    ,freight    -- aggregation column
+  FROM [Sales].[SalesOrderHeader]
 )
 SELECT *
-INTO Sales.FreightTotals
 FROM PivotData
-  PIVOT( SUM(freight) FOR shipperid IN ([1],[2],[3]) ) AS P;
+  PIVOT( SUM(freight) FOR [ShipMethodID] IN ([1],[2],[3]) ) AS P;
 
-SELECT * FROM Sales.FreightTotals;
 
 -- unpivot data
 SELECT custid, shipperid, freight

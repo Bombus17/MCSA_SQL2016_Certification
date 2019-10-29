@@ -3,6 +3,8 @@ GO
 
 /* MATHEMATICAL FUNCTIONS
 
+-- be aware of precedence
+
 -- there are many, this list is not exhaustive
 -- see MS documentation
 -- ROUND (<expr>, length, [, function])
