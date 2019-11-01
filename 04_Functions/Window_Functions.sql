@@ -60,15 +60,7 @@ FROM Production.Product;
 
 /* two products with lowest prices per category
 -------------------------------------------------*/
-SELECT ProductSubcategoryID, productid, [Name], ListPrice
-FROM (SELECT ROW_NUMBER() OVER(PARTITION BY ProductSubcategoryID
-                    ORDER BY ListPrice, productid) AS rownum
-        , ProductSubcategoryID
-		, productid
-		, [Name]
-		, ListPrice
-      FROM Production.Product) AS D
-WHERE rownum <= 2;
+
 
 /*  Return Total Due per order per Customer
 ----------------------------------------*/

@@ -249,12 +249,12 @@ GO
 ---------------------------------------------------------------------
 -- Multistatement table-valued user-defined functions
 ---------------------------------------------------------------------
+IF OBJECT_ID (N'dbo.UDF_GetSubtree') IS NOT NULL DROP FUNCTION dbo.UDF_GetSubtree
+GO
 
--- definition of GetSubtree function
-DROP FUNCTION IF EXISTS dbo.GetSubtree;
 -- cannot use CREATE OR ALTER to change the function type
 GO
-CREATE FUNCTION dbo.GetSubtree (@mgrid AS INT, @maxlevels AS INT = NULL)
+CREATE FUNCTION dbo.UDF_GetSubtree (@mgrid AS INT, @maxlevels AS INT = NULL)
 RETURNS @Tree TABLE
 (
   empid    INT          NOT NULL PRIMARY KEY,
@@ -270,7 +270,8 @@ AS
 BEGIN
   DECLARE @lvl AS INT = 0;
 
-  -- insert subtree root node into @Tree
+  /* insert subtree root node into @Tree
+  -----------------------------------------*/
   INSERT INTO @Tree(empid, mgrid, empname, salary, lvl, sortpath)
     SELECT empid, NULL AS mgrid, empname, salary, @lvl AS lvl, '.' AS sortpath
     FROM dbo.Employees
@@ -280,7 +281,8 @@ BEGIN
   BEGIN
     SET @lvl += 1;
 
-    -- insert children of nodes from prev level into @Tree
+    /* insert children of nodes from prev level into @Tree 
+	--------------------------------------------------------*/
     INSERT INTO @Tree(empid, mgrid, empname, salary, lvl, sortpath)
       SELECT S.empid, S.mgrid, S.empname, S.salary, @lvl AS lvl,
         M.sortpath + CAST(S.empid AS VARCHAR(10)) + '.' AS sortpath
@@ -293,12 +295,14 @@ BEGIN
 END;
 GO
 
--- test
+/* test the function 
+---------------------*/
 SELECT empid, REPLICATE(' | ', lvl) + empname AS emp,
   mgrid, salary, lvl, sortpath
-FROM dbo.GetSubtree(3, NULL) AS T
+FROM dbo.UDF_GetSubtree(3, NULL) AS T
 ORDER BY sortpath;
 GO
+
 
 -- cleanup
 DROP TABLE IF EXISTS dbo.T1;
