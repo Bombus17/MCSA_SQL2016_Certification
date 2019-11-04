@@ -3,16 +3,16 @@ GO
 
 /*	ERROR HANDLING
 
--- error handling
+-- Error Handling
 -- TRY CATCH
--- RAISERROR
+-- THROW and RAISERROR
 -- ERROR_NUMBER: the internal number of the error 
--- ERROR_STATE: the information about the source 
+-- ERROR_STATE: integer in range 1-255. used for custom purposes.
 -- ERROR_SEVERITY: severity number
 -- ERROR_LINE: line number at which an error occured  
--- ERROR_PROCEDURE: name of the stored procedure or function 
+-- ERROR_PROCEDURE: name of the stored procedure or function, returns NULL if error was not at a stored procedure
 -- ERROR_MESSAGE: most essential information and that is the message text of the error 
--- transactions: BEGIN...END, COMMIT TRANSACTION, ROLLBACK TRANSACTION (see also savepoints and naming transactions)
+-- Transactions: BEGIN...END, COMMIT TRANSACTION, ROLLBACK TRANSACTION (see Transactions scripts)
 -- XACT_STATE
 -- SET_XACT_ABORT (ON | OFF)
 -- ARITHABORT, ARITHINGNORE, ANSI_WARNINGS
@@ -34,6 +34,17 @@ SYNTAX
 		 --code to run if error occurs
 	--is generated in try
 	END CATCH
+
+-- Place code in TRY block
+-- Error handling on the CATCH block
+-- If there's no error in the TRY block, the CATCH block is skipped
+-- If there is an error in the TRY block, control is passed to the first line of the CATCH block
+Note:
+-- You may nest a TRY-CATCH construct within a CATCH block
+-- If an error happens in a CATCH block, which is not in a nested TRY-CATCH construct
+	the error behaves as if it didn't happend in a TRY block; i.e. it bubbles it up
+-- The block can't catch compilation errors (e.g. referring to columns that don't exist) in the same scope
+	Can catch such errors in an outer scope
 
 --------------------------------------------------*/
 
