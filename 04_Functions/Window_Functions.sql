@@ -137,6 +137,19 @@ SELECT [CustomerID]
 	,ROUND(CUME_DIST() OVER(ORDER BY [TotalDue]),4) AS CUMEDIST
 FROM [Sales].[SalesOrderHeader];
 
+/*  USE A CTE 
+	3rd highest salary. Why DENSE_RANK() no gaps in the ranking values 
+	--------------------------------------------------------------------
+*/
+WITH salaries AS
+	( SELECT *,
+	DENSE_RANK() OVER (ORDER BY Salary DESC) AS Rnk
+	FROM employees
+	)
+SELECT *
+FROM Salaries
+WHERE RNK = 3;
+
 /*
 -- Window offset functions
 

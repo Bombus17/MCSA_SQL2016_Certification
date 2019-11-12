@@ -28,6 +28,37 @@ GROUP BY HighestSale
 HAVING COUNT(CustomerID)  > 5
 ORDER BY TotalCustomers DESC
 
+/* Nth highest in a table 
+---------------------------------*/
+/* second highest salary */
+SELECT MAX(Salary) 
+FROM dbo.Employees
+WHERE salary NOT IN (select max(salary) from dbo.Employees);
+
+/*  USE A CTE 
+	3rd highest salary. Why DENSE_RANK() no gaps in the ranking values 
+	--------------------------------------------------------------------
+*/
+WITH salaries AS
+	( SELECT *,
+	DENSE_RANK() OVER (ORDER BY Salary DESC) AS Rnk
+	FROM employees
+	)
+SELECT *
+FROM Salaries
+WHERE RNK = 3;
+
+/* use correlated sub query 
+	for each record processed by the outer query the inner query returns 
+	how many records has a value less than the value stated (2 in this example)
+----------------------------------------------------------------------------*/
+SELECT Salary
+FROM Employees e
+WHERE 2=(SELECT COUNT(DISTINCT Salary) 
+         FROM Employees p
+         WHERE e.Salary<=p.Salary) 
+
+
 /* Return multiple aggregations
 
 --------------------------------------------------*/

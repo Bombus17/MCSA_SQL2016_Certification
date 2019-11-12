@@ -111,7 +111,22 @@ WHERE ListPrice =
    FROM Production.Product AS P2
    WHERE P2.ProductSubcategoryID = P1.ProductSubcategoryID);
 
+/* use correlated sub query to find the nth highest salary
+	for each record processed by the outer query the inner query returns 
+	how many records has a value less than the value stated (2 in this example)
+----------------------------------------------------------------------------*/
+DECLARE @Nth INT = 2
 
+SELECT CASE @Nth
+		WHEN 2 THEN 'Second Highest salary'
+		ELSE 
+		CAST(@Nth AS char(3)) + 'th Highest salary' 
+		END AS Qry
+	,Salary
+FROM Employees e
+WHERE @Nth=(SELECT COUNT(DISTINCT Salary) 
+         FROM Employees p
+         WHERE e.Salary<=p.Salary)
 
 /* ANY, ALL and SOME 
 
