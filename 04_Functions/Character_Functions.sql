@@ -69,11 +69,13 @@ SELECT LEN(@LenTest) AS [LEN];
 
 /* REPLACE - replace a given string 
 	REPLICATE - repeats a string a given number of times
+	REVERSE 
 ---------------------------------------*/
 
 DECLARE @RepTest VARCHAR(25) = 'one two three four'
 SELECT REPLACE(@RepTest, ' ', '/') AS [REPLACE]
 	, REPLICATE(@RepTest, 3) AS [REPLICATE]
+	, REVERSE(@RepTest) AS [REVERSE];
 
 /* STUFF - deletes a part of a string and inserts something else in it's place
 -----------------------------------------------*/
