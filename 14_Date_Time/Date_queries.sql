@@ -15,3 +15,8 @@ SELECT MIN(dt)
 FROM dts
 GROUP BY (DATEPART(MONTH,dt));
 
+/* FIRST DAY OF THE MONTH*/
+SELECT DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0) AS StartOfMonth
+	,DATENAME(DW,(DATEADD(month, DATEDIFF(month, 0, GETDATE()), 0))) AS [DayOfWeek];
+
+
