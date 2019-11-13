@@ -31,6 +31,16 @@ SELECT TOP(5) SalesOrderID, OrderDate, CustomerID, SalesPersonID
 FROM Sales.SalesOrderHeader
 ORDER BY OrderDate DESC;
 
+/* find the nth highest salary in the employees table */
+SELECT [empid]
+      ,[mgrid]
+      ,[empname]
+      ,[salary]
+  FROM [dbo].[Employees]
+  ORDER BY Salary DESC
+  OFFSET 1 ROW FETCH NEXT 1 ROW ONLY; --2nd highest
+  --OFFSET 2 ROWS FETCH NEXT 1 ROW ONLY; -- 3rd highest
+
 ---------------------------------------------------------------------------------------*/
 /* Retrieve data using WITH TIES
 
