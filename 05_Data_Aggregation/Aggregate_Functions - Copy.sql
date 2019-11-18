@@ -5,6 +5,7 @@ GO
 Purpose: Aggregate functions
 
 -- standard aggregate functions: MIN, MAX, AVG, SUM, COUNT 
+-- MEDIAN N.B. There is no Median function, use PERCENTILE_CONT, a subquery or a partitioned set
 -- NULLs 
 -- operators and aggregations
 -- Query tuning (SARGability)
@@ -71,6 +72,15 @@ FROM Sales.SalesOrderHeader
 WHERE PurchaseOrderNumber IS NOT NULL
 GROUP BY AccountNumber
 ORDER BY AccountNumber DESC;
+
+/* return MEDIAN VALUE 
+------------------------------*/
+SELECT SalesOrderID, OrderQty, ProductID,
+PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ProductID)
+OVER (PARTITION BY SalesOrderID) AS MedianCont
+FROM Sales.SalesOrderDetail
+WHERE SalesOrderID IN (43670, 43669, 43667, 43663)
+ORDER BY SalesOrderID DESC;
 
 /* Total customers with large orders (> 5,000)
 -----------------------------------------------*/
