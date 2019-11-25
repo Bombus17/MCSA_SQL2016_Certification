@@ -29,7 +29,7 @@ Purpose: multiple Joins
 
 /* Placing an OUTER join first
 
--- here the NULL placholders are cancelled out by the following INNER JOIN
+-- here the NULL placholders are cancelled out by the subsequent INNER JOIN
 -- Note: these examples are both representative of composite joins (joining on > 1 column) and using JOIN operators
 ----------------------------------------------------------------------------*/
 SELECT p.BusinessEntityID

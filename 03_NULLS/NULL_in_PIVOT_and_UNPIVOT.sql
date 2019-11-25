@@ -3,6 +3,7 @@ GO
 
 /* KEEPING NULLS WHEN UNPIVOTING OR PIVOTING DATA 
 
+
 -- see PIVOT and UNPIVOT scripts for test data
 -------------------------------------------*/
 
