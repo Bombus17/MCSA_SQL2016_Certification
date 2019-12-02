@@ -38,6 +38,7 @@ ORDER BY [Name] ;
 -----------------------------------------*/
 SELECT DISTINCT [Name]  
 FROM [Purchasing].[Vendor]
+---------------------------------------------------------
 
 /* PRODUCE A LIST OF EMPLOYEES IN THE FOLLOWING FORMAT:
 Title, First_Name, Middle_Name, Last_Name, Full_Name, Full_Name:Email_Promotion
@@ -70,6 +71,7 @@ ORDER BY LastName, FirstName;
 /* ORDER EMPLOYEE LIST BY EMAIL PROMOTION 
 -- you do not need to select the column you are ordering by
 -------------------------------------------------------------*/
+
 SELECT Title
       ,FirstName AS First_Name
       ,MiddleName AS Middle_Name
@@ -91,7 +93,8 @@ SELECT Title
 FROM [Person].[Person]
 ORDER BY Full_Name;
 
-/* Logical query processing */
+/* Logical query processing 
+--------------------------------*/
 
 SELECT Gender, YEAR(hiredate) AS yearhired, COUNT(*) AS numemployees
 FROM HumanResources.Employee

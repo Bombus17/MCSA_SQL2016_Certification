@@ -37,6 +37,7 @@ SELECT ProductID
 		  END
 FROM Production.Product;
 
+/* set a range for each order quantity */
 SELECT SalesOrderID
 	, OrderQty
 	,[Range] = CASE WHEN OrderQty BETWEEN 0 AND 9 THEN 'Under 10'

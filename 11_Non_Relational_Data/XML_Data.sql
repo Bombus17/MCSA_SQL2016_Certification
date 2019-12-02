@@ -13,7 +13,6 @@ GO
 -- VALIDATE XML
 --------------------------------------------*/
 
-
 -- Create XML example with FOR XML AUTO option, atttribute-centric
 -- This query is used to produce the demo XML document at the beginning of the XML section
 SELECT Customer.custid, Customer.companyname, 

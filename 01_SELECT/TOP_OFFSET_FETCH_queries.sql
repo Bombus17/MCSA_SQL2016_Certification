@@ -108,6 +108,8 @@ FROM Sales.SalesOrderHeader
 ORDER BY OrderDate DESC, SalesOrderID DESC
 OFFSET 0 ROWS FETCH NEXT 25 ROWS ONLY;
 
+
+
 SELECT TOP (25) SalesOrderID, OrderDate, CustomerID, SalesPersonID
 FROM Sales.SalesOrderHeader
 ORDER BY OrderDate DESC, SalesOrderID DESC
